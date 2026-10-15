@@ -300,3 +300,23 @@ func TestTagsSort(t *testing.T) {
 		})
 	}
 }
+
+func TestTagsSortSemverShorthandWithSuffix(t *testing.T) {
+	tags := SortTags([]string{
+		"17.0-alpine", "17.1-alpine", "17.10-alpine", "17.11-alpine",
+		"17.2-alpine", "17.9-alpine",
+	}, SortTagSemver)
+	assert.Equal(t, []string{
+		"17.11-alpine", "17.10-alpine", "17.9-alpine",
+		"17.2-alpine", "17.1-alpine", "17.0-alpine",
+	}, tags)
+}
+
+func TestTagsSortSemverMajorShorthandWithSuffix(t *testing.T) {
+	tags := SortTags([]string{
+		"7-alpine", "10-alpine", "9-alpine",
+	}, SortTagSemver)
+	assert.Equal(t, []string{
+		"10-alpine", "9-alpine", "7-alpine",
+	}, tags)
+}
